@@ -16,7 +16,7 @@ rm -rf $EXECUTE_FILE
 echo "****************Clean End***********************"
 
 echo "****************Start to Build***********************"
-g++ -std=c++11 -o $EXECUTE_FILE ./$SOURCE_FILE -lboost_log_setup -lboost_log -lboost_thread -lboost_system -lboost_chrono -lpthread
+g++ -std=c++11 -o $EXECUTE_FILE ./$SOURCE_FILE -lboost_filesystem -lboost_log_setup -lboost_log -lboost_thread -lboost_system -lboost_chrono -lpthread -lrt
 echo "****************Build End***********************"
 
 echo "****************Start to Test***********************"
