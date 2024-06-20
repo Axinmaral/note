@@ -1,6 +1,8 @@
 //Boost.DateTime模块
 #include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/local_time/local_time.hpp>
 #include <iostream>
+#include <locale>
 
 int main()
 {
@@ -42,4 +44,25 @@ int main()
     std::cout << d23 << std::endl;
     boost::gregorian::date d33 = d23 - mss;
     std::cout << d33 << std::endl;
+
+    boost::local_time::time_zone_ptr tz(new boost::local_time::posix_time_zone("CET+1"));
+    boost::posix_time::ptime pt(boost::gregorian::date(2009, 1, 5), boost::posix_time::time_duration(12, 0, 0));
+    boost::local_time::local_date_time dt(pt, tz);
+    std::cout << dt.local_time() << std::endl;
+    boost::local_time::time_zone_ptr tz2(new boost::local_time::posix_time_zone("EET+2"));
+    std::cout << dt.local_time_in(tz2).local_time() << std::endl;
+
+    boost::local_time::time_zone_ptr tz3(new boost::local_time::posix_time_zone("CET+0"));
+    boost::posix_time::ptime pt1(boost::gregorian::date(2009, 1, 5), boost::posix_time::time_duration(12, 0, 0));
+    boost::local_time::local_date_time dt1(pt1, tz3);
+    boost::posix_time::ptime pt2(boost::gregorian::date(2009, 1, 5), boost::posix_time::time_duration(12, 0, 0));
+    boost::local_time::local_date_time dt2(pt2, tz3);
+    boost::local_time::local_time_period tp(dt1, dt2);
+    std::cout << tp.contains(dt1) << std::endl;
+    std::cout << tp.contains(dt2) << std::endl;
+
+    boost::gregorian::date d3(2014, 6, 20);
+    boost::gregorian::date_facet *df = new boost::gregorian::date_facet("%A %d %B %Y");
+    std::cout.imbue(std::locale(std::cout.getloc(), df));
+    std::cout << d3 << std::endl;
 }
